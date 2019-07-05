@@ -1,0 +1,283 @@
+Git Solutions
+
+1) Create a Distributed version control system, and put files into it.
+
+root@Quantiphi-928:/home/shriram/Desktop# mkdir GitAssessment
+root@Quantiphi-928:/home/shriram/Desktop# cd GitAssessment
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# chmod 777 -R ./
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git init
+Initialized empty Git repository in /home/shriram/Desktop/GitAssessment/.git/
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# echo hello >hw.txt
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git add hw.txt
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git commit -m 'initial commit'
+[master (root-commit) f6980a6] initial commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 hw.txt
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# echo "Sample Git" >README
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git add README
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git commit -m "Added Readme"
+[master 4d94144] Added Readme
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git remote add origin /home/shriram/Desktop/GitAssessment
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git push origin master
+Everything up-to-date
+
+
+2) Replicate a DVCS on your local machine, make changes to its files, and then put them back into it.
+
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# git clone https://github.com/shriram2712/sample.git
+Cloning into 'sample'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 13 (delta 0), reused 2 (delta 0), pack-reused 10
+Unpacking objects: 100% (13/13), done.
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment# cd sample
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# ls
+branch2test.txt  hw.txt  README.md  Sample1
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# cat hw.txt
+hello
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# cat >>hw.txt
+world
+^C
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# cat hw.txt
+hello
+world
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git add hw.txt
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git commit -m "CHanged contents of hw.txt"
+[master 897c714] CHanged contents of hw.txt
+ 1 file changed, 1 insertion(+)
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git push origin master
+Username for 'https://github.com': 2015shriram.rajaraman@ves.ac.in
+Password for 'https://2015shriram.rajaraman@ves.ac.in@github.com': 
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 290 bytes | 290.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/shriram2712/sample.git
+   74fae72..897c714  master -> master
+
+3) List down all the files which have changed in the last commit. List only the file names.
+
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git diff --name-only HEAD~1
+hw.txt
+
+4) You’ve accidentally added some files on a DVCS. Remove those files from the DVCS without deleting them from your local system.
+
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git rm --cached branch2test.txt
+rm 'branch2test.txt'
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git commit -m "branch2test.txt removed"
+[master 978c199] branch2test.txt removed
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 branch2test.txt
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git push master origin
+fatal: 'master' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git push origin master
+Username for 'https://github.com': 2015shriram.rajaraman@ves.ac.in
+Password for 'https://2015shriram.rajaraman@ves.ac.in@github.com': 
+Counting objects: 2, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 240 bytes | 240.00 KiB/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/shriram2712/sample.git
+   897c714..978c199  master -> master
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# 
+
+
+5) You’ve accidentally committed some files on a DVCS. Revert the DVCS to a previous stable state.
+
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git log 
+commit 978c199e311da14b6453c911cd1ce3b11803cf47 (HEAD -> master, origin/master, origin/HEAD)
+Author: Shriram Rajaraman <2015shriram.rajaraman@ves.ac.in>
+Date:   Thu Jul 4 16:36:51 2019 +0530
+
+    branch2test.txt removed
+
+commit 897c714993e509b10d17c9a08fbaaa3f90d8d930
+Author: Shriram Rajaraman <2015shriram.rajaraman@ves.ac.in>
+Date:   Thu Jul 4 16:28:39 2019 +0530
+
+    CHanged contents of hw.txt
+
+commit 74fae7233f191a2f7622e882c28784f9b16c7b24
+Author: Shriram Rajaraman <2015shriram.rajaraman@ves.ac.in>
+Date:   Thu Jul 4 16:19:16 2019 +0530
+
+    Added Hello world
+
+commit 8ed36e3b97c85326448b87263304f316836bead5
+Author: Shriram Rajaraman <32219070+shriram2712@users.noreply.github.com>
+Date:   Sat Apr 7 01:18:03 2018 -0700
+
+    Initial commit
+
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git checkout 897c714993e509b10d17c9a08fbaaa3f90d8d930
+Note: checking out '897c714993e509b10d17c9a08fbaaa3f90d8d930'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at 897c714 CHanged contents of hw.txt
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git revert 978c199e311da14b6453c911cd1ce3b11803cf47
+HEAD detached at 897c714
+nothing to commit, working tree clean
+root@Quantiphi-928:/home/shriram/Desktop/GitAssessment/sample# git push origin master
+Username for 'https://github.com': 2015shriram.rajaraman@ves.ac.in 
+Password for 'https://2015shriram.rajaraman@ves.ac.in@github.com': 
+Everything up-to-date
+
+6)  Create a DVCS capable of supporting 2 similar dev environments. Make changes in the files which are present on both of them and then merge the environments into one.
+
+root@Quantiphi-928:/home/shriram/Desktop# mkdir qsix
+root@Quantiphi-928:/home/shriram/Desktop# cd qsix
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git init
+Initialized empty Git repository in /home/shriram/Desktop/qsix/.git/
+root@Quantiphi-928:/home/shriram/Desktop/qsix# echo "hello" >h1.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git add h1.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git commit -m "h1 to master"
+[master (root-commit) bf3a1ee] h1 to master
+ 1 file changed, 1 insertion(+)
+ create mode 100644 h1.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git remote add origin /home/shriram/Desktop/qsix
+root@Quantiphi-928:/home/shriram/Desktop/qsix# echo "hello" >h2.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# echo "hello" >h3.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git add h2.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git add h3.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git commit -m "h2 and h3 added"
+[master 55daea4] h2 and h3 added
+ 2 files changed, 2 insertions(+)
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git branch dev2
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git checkout dev2
+Switched to branch 'dev2'
+root@Quantiphi-928:/home/shriram/Desktop/qsix# echo "world" >>h3.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git add h3.txt
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git commit -m "H3 change from dev2"
+[dev2 ddb3b2e] H3 change from dev2
+ 1 file changed, 1 insertion(+)
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git checkout dev1
+Switched to branch 'dev1'
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git merge dev2
+Updating 55daea4..ddb3b2e
+Fast-forward
+ h2.txt | 1 +
+ h3.txt | 1 +
+ 2 files changed, 2 insertions(+)
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git checkout dev1
+Switched to branch 'dev1'
+root@Quantiphi-928:/home/shriram/Desktop/qsix# cat h3.txt
+hello
+world
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git checkout master
+Switched to branch 'master'
+root@Quantiphi-928:/home/shriram/Desktop/qsix# cat h3.txt
+hello
+root@Quantiphi-928:/home/shriram/Desktop/qsix# git merge dev1
+Updating 9f19bca..ddb3b2e
+Fast-forward
+ h3.txt | 1 +
+ 1 file changed, 1 insertion(+)
+root@Quantiphi-928:/home/shriram/Desktop/qsix# cat h3.txt
+hello
+world
+
+7) You have a DVCS supporting your prod, test and dev environments, you need to make sure that only a particular set of commits from the test environment are added in the prod environment. What & how would you do it?
+
+The idea here is to create 2 branches -  the test branch and the prod branch which will exist along with the master (dev) branch. Using the cherry-pick command we commited only commit e into prod branch using the commit id
+
+
+root@Quantiphi-928:/home/shriram/Desktop# cd ques7
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git init
+Initialized empty Git repository in /home/shriram/Desktop/ques7/.git/
+root@Quantiphi-928:/home/shriram/Desktop/ques7# echo "Hello world" >>a.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git add .
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git commit -m "First Commit"
+[master (root-commit) f0b2e83] First Commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 a.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git remote add origin /home/shriram/Desktop/ques7
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git branch prod
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git branch test
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git branch
+* master
+  prod
+  test
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git checkout test
+Switched to branch 'test'
+root@Quantiphi-928:/home/shriram/Desktop/ques7# echo "hello" >b.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git add .
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git commit -m "b commit on test"
+[test 6d82ec1] b commit on test
+ 1 file changed, 1 insertion(+)
+ create mode 100644 b.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# echo "hello" >c.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git add .
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git commit -m "c commit on test"
+[test 76c137d] c commit on test
+ 1 file changed, 1 insertion(+)
+ create mode 100644 c.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# echo "hello" >e.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git add .
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git commit -m "e  commit on test"
+[test fcb370d] e  commit on test
+ 1 file changed, 1 insertion(+)
+ create mode 100644 e.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# echo "hello" >f.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git add .
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git commit -m "f commit on test"
+[test 13b9dd8] f commit on test
+ 1 file changed, 1 insertion(+)
+ create mode 100644 f.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git checkout prod
+Switched to branch 'prod'
+root@Quantiphi-928:/home/shriram/Desktop/ques7# echo "hello" >g.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git add .
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git commit --amend -m "g commit on test"
+[prod 97a3a14] g commit on test
+ Date: Fri Jul 5 18:11:36 2019 +0530
+ 1 file changed, 1 insertion(+)
+ create mode 100644 g.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git checkout test
+Switched to branch 'test'
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git log --pretty=oneline
+13b9dd8cfbbd22b7fc2aa84577bec5df07fd1ffe (HEAD -> test) f commit on test
+fcb370db8bde919aca8513143959709f2113575d e  commit on test
+76c137d58d069beab58d501f86f6903ff566fec1 c commit on test
+6d82ec19b6f3f493e6c23051c5654653ea8a33d9 b commit on test
+f0b2e83e2787e185b715402775742bde2775309e (master) First Commit
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git checkout prod
+Switched to branch 'prod'
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git log --pretty=oneline
+d4a01e4601f1ea2fe637d7f35d54059b2f272b09 (HEAD -> prod) h commit on test
+97a3a14476a4f0cabcc0448aecfb6555a9511bc0 g commit on test
+f0b2e83e2787e185b715402775742bde2775309e (master) First Commit
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git cherry-pick fcb370db8bde919aca8513143959709f2113575d
+[prod 3edb190] e  commit on test
+ Date: Fri Jul 5 18:10:47 2019 +0530
+ 1 file changed, 1 insertion(+)
+ create mode 100644 e.txt
+root@Quantiphi-928:/home/shriram/Desktop/ques7# git log --pretty=oneline
+3edb190e9b37f77c5a33bb292591134bca94804c (HEAD -> prod) e  commit on test
+d4a01e4601f1ea2fe637d7f35d54059b2f272b09 h commit on test
+97a3a14476a4f0cabcc0448aecfb6555a9511bc0 g commit on test
+f0b2e83e2787e185b715402775742bde2775309e (master) First Commit
+
+
+
+       
+
+
